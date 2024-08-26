@@ -6,7 +6,7 @@
     "module": "commonjs",
     "declaration": true,
     "composite": true,
-    "incremental": true,
+    "incremental": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
