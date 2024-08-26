@@ -91,7 +91,6 @@ async function getPixivImage(ctx: Context, tag: string) {
     params['tag'] = tag.split(' ').join('|');
   }
 
-  // 增加排除 AI 作品的逻辑
   if (_config.excludeAI) {
     params['excludeAI'] = true;
   }
@@ -112,6 +111,6 @@ const getAxiosConfig = (): AxiosRequestConfig | undefined => {
       port: Number(proxyUrl.port),
       protocol: proxyUrl.protocol.replace(':', '') as 'http' | 'https',
     },
-    method: 'GET' as Method,  // 这里明确指定 method 的类型
+    method: 'GET' as Method,
   };
 };
