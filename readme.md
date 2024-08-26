@@ -9,7 +9,7 @@
 | isR18 | 是否随机R18图片 | false |
 | isProxy | 是否启用代理 | false |
 | R18P | 随机图片中R18的概率，别开太高哦~，仅在isR18为真时有效 | 0.1  |
-| excludeAI | 排除AI作品 | false
+| excludeAI | 排除AI作品 | false |
 | proxyHost | 代理服务器的地址，仅在isProxy为真时有效 | http://127.0.0.1:7890 |
 
 ### 使用方法
