@@ -2,7 +2,7 @@ import { Context, Random, Schema } from 'koishi';
 import { HttpUtil } from "./util/HttpUtil";
 import { AxiosRequestConfig, Method } from "axios";
 
-export const name = '@rinkuto/pixiv';
+export const name = '@q78kg/pixiv';
 
 import { Lolicon, Pixivic, Vilipix } from "./util/Interface";
 
