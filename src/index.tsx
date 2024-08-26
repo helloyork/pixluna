@@ -91,7 +91,7 @@ async function getPixivImage(ctx: Context, tag: string) {
     params['tag'] = tag.split(' ').join('|');
   }
 
-  const res = await ctx.http.get(HttpUtil.setParams(pixivUrl.url, params), getAxiosConfig());
+  const res = await ctx.http.get(HttpUtil.setParams(pixivUrl.url, params), getAxiosConfig() as any);
   return res.data[0];
 }
 
