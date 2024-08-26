@@ -91,6 +91,11 @@ async function getPixivImage(ctx: Context, tag: string) {
     params['tag'] = tag.split(' ').join('|');
   }
 
+  // 增加排除 AI 作品的逻辑
+  if (_config.excludeAI) {
+    params['excludeAI'] = true;
+  }
+
   const res = await ctx.http.get(HttpUtil.setParams(pixivUrl.url, params), getAxiosConfig() as any);
   return res.data[0];
 }
@@ -99,7 +104,7 @@ const getAxiosConfig = (): AxiosRequestConfig | undefined => {
   if (!_config.isProxy) {
     return undefined;
   }
-  
+
   const proxyUrl = new URL(_config.proxyHost);
   return {
     proxy: {
