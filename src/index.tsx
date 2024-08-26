@@ -1,32 +1,20 @@
-import {Context, Random, Schema} from 'koishi'
-import {HttpUtil} from "./util/HttpUtil";
-import {AxiosRequestConfig} from "axios";
+import { Context, Random, Schema } from 'koishi';
+import { HttpUtil } from "./util/HttpUtil";
+import { AxiosRequestConfig, Method } from "axios";
 
-export const name = '@rinkuto/pixiv'
+export const name = '@rinkuto/pixiv';
 
-// import schedule from 'node-schedule';
-import {Lolicon, Pixivic, Vilipix} from "./util/Interface";
+import { Lolicon, Pixivic, Vilipix } from "./util/Interface";
 
-let date = new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+let date = new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
 import Config from "./config";
 
-export * from './config'
+export * from './config';
 
-// r18	int	0	        0为非 R18，1为 R18，2为混合（在库中的分类，不等同于作品本身的 R18 标识）
-// num	int	1         一次返回的结果数量，范围为1到20；在指定关键字或标签的情况下，结果数量可能会不足指定的数量
-// uid	int[]		      返回指定uid作者的作品，最多20个
-// keyword	string		返回从标题、作者、标签中按指定关键字模糊匹配的结果，大小写不敏感，性能和准度较差且功能单一，建议使用tag代替
-// tag	string[]		  返回匹配指定标签的作品，详见下文
-// size	string[]	    ["original"]	返回指定图片规格的地址，详见下文
-// proxy	string	    i.pixiv.re	设置图片地址所使用的在线反代服务，详见下文
-// dateAfter	int		  返回在这个时间及以后上传的作品；时间戳，单位为毫秒
-// dateBefore	int		  返回在这个时间及以前上传的作品；时间戳，单位为毫秒
-// dsc	boolean	false	禁用对某些缩写keyword和tag的自动转换，详见下文
-// excludeAI	boolean	false	排除 AI 作品
 const pixivUrl = {
   url: 'https://api.lolicon.app/setu/v2'
-}
+};
 
 let _config: Config;
 
@@ -38,7 +26,7 @@ export function apply(ctx: Context, config: Config) {
       fallback: 1,
     })
     .alias('色图')
-    .action(async ({session, options}, tag) => {
+    .action(async ({ session, options }, tag) => {
       let image: Lolicon;
       await session.send('不可以涩涩哦~');
       const messages = [];
@@ -46,23 +34,29 @@ export function apply(ctx: Context, config: Config) {
         try {
           image = await getPixivImage(ctx, tag);
           if (image.urls === undefined) {
-            messages.push(<message>
-              <text content={'没有获取到喵\n'}></text>
-            </message>)
+            messages.push(
+              <message>
+                <text content={'没有获取到喵\n'}></text>
+              </message>
+            );
           } else {
-            messages.push(<message>
-              <image url={image.urls.original}></image>
-              <text content={`\ntitle：${image.title}\n`}></text>
-              <text content={`id：${image.pid}\n`}></text>
-              <text content={`tags：${image.tags.map((item) => {
-                return '#' + item
-              }).join(' ')}\n`}></text>
-            </message>)
+            messages.push(
+              <message>
+                <image url={image.urls.original}></image>
+                <text content={`\ntitle：${image.title}\n`}></text>
+                <text content={`id：${image.pid}\n`}></text>
+                <text content={`tags：${image.tags.map((item) => {
+                  return '#' + item;
+                }).join(' ')}\n`}></text>
+              </message>
+            );
           }
         } catch (e) {
-          messages.push(<message>
-            <text content={`图片获取失败了喵~，code:${e.code}`}></text>
-          </message>)
+          messages.push(
+            <message>
+              <text content={`图片获取失败了喵~，code:${e.code}`}></text>
+            </message>
+          );
         }
       }
       session.send(
@@ -70,7 +64,8 @@ export function apply(ctx: Context, config: Config) {
           <message forward={true}>
             {messages}
           </message>
-        </>).then(res => {
+        </>
+      ).then(res => {
         if (res.length === 0) {
           logger.error(`消息发送失败，账号可能被风控`);
           session.send(
@@ -80,12 +75,12 @@ export function apply(ctx: Context, config: Config) {
             </>
           );
         }
-      })
-    })
+      });
+    });
 }
 
 async function getPixivImage(ctx: Context, tag: string) {
-  const params = {};
+  const params: Record<string, any> = {};
   if (_config.isR18) {
     params['r18'] = Random.bool(_config.r18P) ? 1 : 0;
   } else {
@@ -100,18 +95,18 @@ async function getPixivImage(ctx: Context, tag: string) {
   return res.data[0];
 }
 
-const getAxiosConfig = (): AxiosRequestConfig => {
-
-  if (_config.isProxy === false) {
+const getAxiosConfig = (): AxiosRequestConfig | undefined => {
+  if (!_config.isProxy) {
     return undefined;
   }
+  
   const proxyUrl = new URL(_config.proxyHost);
   return {
     proxy: {
       host: proxyUrl.hostname,
       port: Number(proxyUrl.port),
-      protocol: proxyUrl.protocol,
-    }
-  }
-}
-
+      protocol: proxyUrl.protocol.replace(':', '') as 'http' | 'https',
+    },
+    method: 'GET' as Method,  // 这里明确指定 method 的类型
+  };
+};
