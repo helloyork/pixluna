@@ -13,7 +13,7 @@ export const Config: Schema<Config> = Schema.intersect([
   Schema.object({
     isR18: Schema.boolean().default(false).description('是否开启R18'),
     isProxy: Schema.boolean().default(false).description('是否使用代理'),
-    excludeAI: Schema.boolean().default(false).description('是否排除 AI 作品'),  // 新增的配置项
+    excludeAI: Schema.boolean().default(false).description('是否排除 AI 作品'),
   }),
   Schema.union([
     Schema.object({
