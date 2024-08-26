@@ -1,10 +1,10 @@
-# @rinkuto/koishi-plugin-pixiv
+# @q78kg/koishi-plugin-pixiv
 
-[![npm](https://img.shields.io/npm/v/@rinkuto/koishi-plugin-pixiv?style=flat-square)](https://www.npmjs.com/package/@rinkuto/koishi-plugin-pixiv)
+[![npm](https://img.shields.io/npm/v/@q78kg/koishi-plugin-pixiv?style=flat-square)](https://www.npmjs.com/package/@q78kg/koishi-plugin-pixiv)
 
 从pixiv中随机获取一张图片
 
-| 参数        |               作用                | 默认值                   |
+| 参数 |               作用                | 默认值                   |
 |-----------|:-------------------------------:|-----------------------|
 | isR18     |            是否随机R18图片            | false                 |
 | isProxy   |             是否启用代理              | false                 |
