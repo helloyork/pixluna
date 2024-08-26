@@ -1,7 +1,7 @@
 {
-  "name": "@rinkuto/koishi-plugin-pixiv",
+  "name": "@q78kg/koishi-plugin-pixiv",
   "description": "从pixiv中随机获取一张图片",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
