@@ -5,8 +5,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
-    "lib",
-    "dist"
+    "lib"
   ],
   "license": "MIT",
   "homepage": "https://github.com/Hoshino-Yumetsuki/koishi-plugin-pixiv",
