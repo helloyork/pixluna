@@ -1,4 +1,4 @@
-import {Schema} from "koishi";
+import { Schema } from "koishi";
 
 export interface Config {
   isR18: boolean;
@@ -6,6 +6,7 @@ export interface Config {
   proxyHost: string;
   r18P: number;
   excludeAI: boolean;
+  baseUrl: string;  // 新增的配置项
 }
 
 // @ts-ignore
@@ -14,6 +15,7 @@ export const Config: Schema<Config> = Schema.intersect([
     isR18: Schema.boolean().default(false).description('是否开启R18'),
     isProxy: Schema.boolean().default(false).description('是否使用代理'),
     excludeAI: Schema.boolean().default(false).description('是否排除 AI 作品'),
+    baseUrl: Schema.string().default('i.pixiv.re').description('图片反代服务地址'),  // 新增的配置项
   }),
   Schema.union([
     Schema.object({

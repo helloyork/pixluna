@@ -1,15 +1,12 @@
-import { Context, Random, Schema } from 'koishi';
+import { Context, Random } from 'koishi';
 import { HttpUtil } from "./util/HttpUtil";
 import { AxiosRequestConfig, Method } from "axios";
 
 export const name = '@q78kg/pixiv';
 
-import { Lolicon, Pixivic, Vilipix } from "./util/Interface";
-
-let date = new Date(new Date().getTime() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+import { Lolicon } from "./util/Interface";
 
 import Config from "./config";
-
 export * from './config';
 
 const pixivUrl = {
@@ -93,6 +90,10 @@ async function getPixivImage(ctx: Context, tag: string) {
 
   if (_config.excludeAI) {
     params['excludeAI'] = true;
+  }
+
+  if (_config.baseUrl) {
+    params['proxy'] = _config.baseUrl;
   }
 
   const res = await ctx.http.get(HttpUtil.setParams(pixivUrl.url, params), getAxiosConfig() as any);
