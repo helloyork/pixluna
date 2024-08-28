@@ -32,14 +32,14 @@ export function apply(ctx: Context, config: Config) {
       for (let i = 0; i < Math.min(10, options.n); i++) {
         try {
           image = await getPixivImage(ctx, tag);
-          if (image.urls === undefined) {
+          if (!image || !image?.urls?.original) {
             messages.push(
               <message>
                 <text content={'没有获取到喵\n'}></text>
               </message>
             );
           } else {
-            const imageBuffer = await readRemoteImage(image.urls.original, (image) => {
+            const dataurl = config.useMix ? arrayBufferToDataUrl(await readRemoteImage(image.urls.original, (image) => {
               const dotDiameter = 10;
 
               const x = image.bitmap.width - dotDiameter;
@@ -57,12 +57,9 @@ export function apply(ctx: Context, config: Config) {
                   const a = color & 0xFF;
                   const newColor = Jimp.rgbaToInt(r, g, b, a);
                   image.setPixelColor(newColor, x + i, y + j);
-
                 }
               }
-            });
-
-            const dataurl = arrayBufferToDataUrl(imageBuffer, getImageMimeType(image.urls.original));
+            }), getImageMimeType(image.urls.original)) : image.urls.original;
 
             messages.push(
               <message>
