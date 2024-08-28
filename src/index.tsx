@@ -39,9 +39,9 @@ export function apply(ctx: Context, config: Config) {
               </message>
             );
           } else {
-            let imageBuffer: ArrayBuffer;
+            let imageUrl: string;
             if (_config.imageConfusion) {  // 根据配置决定是否进行图片混淆
-              imageBuffer = await readRemoteImage(image.urls.original, (image) => {
+              const imageBuffer = await readRemoteImage(image.urls.original, (image) => {
                 const dotDiameter = 10;
 
                 const x = image.bitmap.width - dotDiameter;
@@ -63,30 +63,21 @@ export function apply(ctx: Context, config: Config) {
                 }
               });
 
-              const dataurl = arrayBufferToDataUrl(imageBuffer, getImageMimeType(image.urls.original));
-
-              messages.push(
-                <message>
-                  <image url={dataurl}></image>
-                  <text content={`\ntitle：${image.title}\n`}></text>
-                  <text content={`id：${image.pid}\n`}></text>
-                  <text content={`tags：${image.tags.map((item) => {
-                    return '#' + item;
-                  }).join(' ')}\n`}></text>
-                </message>
-              );
+              imageUrl = arrayBufferToDataUrl(imageBuffer, getImageMimeType(image.urls.original));
             } else {
-              messages.push(
-                <message>
-                  <image url={image.urls.original}></image>
-                  <text content={`\ntitle：${image.title}\n`}></text>
-                  <text content={`id：${image.pid}\n`}></text>
-                  <text content={`tags：${image.tags.map((item) => {
-                    return '#' + item;
-                  }).join(' ')}\n`}></text>
-                </message>
-              );
+              imageUrl = image.urls.original;
             }
+
+            messages.push(
+              <message>
+                <image url={imageUrl}></image>
+                <text content={`\ntitle：${image.title}\n`}></text>
+                <text content={`id：${image.pid}\n`}></text>
+                <text content={`tags：${image.tags.map((item) => {
+                  return '#' + item;
+                }).join(' ')}\n`}></text>
+              </message>
+            );
           }
         } catch (e) {
           messages.push(
@@ -184,6 +175,6 @@ async function readRemoteImage(url: string, onRead?: (image: JimpConstructors) =
 }
 
 function arrayBufferToDataUrl(arrayBuffer: ArrayBuffer, type: string): string {
-  const blob = new Blob([arrayBuffer], { type });
-  return URL.createObjectURL(blob);
+  const base64 = Buffer.from(arrayBuffer).toString('base64');
+  return `data:${type};base64,${base64}`;
 }

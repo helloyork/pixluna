@@ -16,8 +16,8 @@ export const Config: Schema<Config> = Schema.intersect([
     isR18: Schema.boolean().default(false).description('是否开启R18'),
     isProxy: Schema.boolean().default(false).description('是否使用代理'),
     excludeAI: Schema.boolean().default(false).description('是否排除 AI 作品'),
-    baseUrl: Schema.string().default('i.pixiv.re').description('图片反代服务地址'),
     imageConfusion: Schema.boolean().default(false).description('是否开启图片混淆'),
+    baseUrl: Schema.string().default('i.pixiv.re').description('图片反代服务地址')
   }),
   Schema.union([
     Schema.object({
