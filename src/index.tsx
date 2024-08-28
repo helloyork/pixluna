@@ -56,7 +56,7 @@ export function apply(ctx: Context, config: Config) {
         } catch (e) {
           messages.push(
             <message>
-              <text content={`图片获取失败了喵~，code:${e.code}`}></text>
+              <text content={`图片获取失败了喵~，${e.code}`}></text>
             </message>
           );
         }
