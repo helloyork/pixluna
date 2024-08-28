@@ -1,13 +1,8 @@
 import { Context, Random } from 'koishi';
-import { HttpUtil } from "./util/HttpUtil";
+import { HttpUtil } from "./utils/HttpUtil";
 import { AxiosRequestConfig, Method } from "axios";
-import Jimp from 'jimp';
-import JimpConstructors from 'jimp/types';
-
-export const name = '@q78kg/pixiv';
-
-import { Lolicon } from "./util/Interface";
-
+import { readRemoteImage, applyImageConfusion } from './utils/ImageConfusion'; // 导入新功能
+import { Lolicon } from "./utils/Interface";
 import Config from "./config";
 export * from './config';
 
@@ -63,7 +58,7 @@ export function apply(ctx: Context, config: Config) {
 
             messages.push(
               <message>
-                <image url={dataurl}></image>
+                <image url={imageUrl}></image>
                 <text content={`\ntitle：${image.title}\n`}></text>
                 <text content={`id：${image.pid}\n`}></text>
                 <text content={`tags：${image.tags.map((item) => {
@@ -75,7 +70,7 @@ export function apply(ctx: Context, config: Config) {
         } catch (e) {
           messages.push(
             <message>
-              <text content={`图片获取失败了喵~，code:${e.code}`}></text>
+              <text content={`图片获取失败了喵~，${e}`}></text>
             </message>
           );
         }
@@ -151,24 +146,7 @@ function getImageMimeType(url: string): string {
   return TypeMap[MimeType];
 }
 
-async function readRemoteImage(url: string, onRead?: (image: JimpConstructors) => void): Promise<ArrayBuffer> {
-  const MimeType = url.split('.').pop();
-  const TypeMap = {
-    jpg: Jimp.MIME_JPEG,
-    jpeg: Jimp.MIME_JPEG,
-    png: Jimp.MIME_PNG,
-    gif: Jimp.MIME_GIF,
-  };
-  return Jimp.read(url).then((image) => {
-    if (onRead) {
-      onRead(image);
-    }
-    return image.getBufferAsync(TypeMap[MimeType]);
-  });
-}
-
 function arrayBufferToDataUrl(arrayBuffer: ArrayBuffer, type: string): string {
-  const blob = new Blob([arrayBuffer], { type });
-  return URL.createObjectURL(blob);
+  const base64 = Buffer.from(arrayBuffer).toString('base64');
+  return `data:${type};base64,${base64}`;
 }
-
