@@ -33,7 +33,7 @@ export function apply(ctx: Context, config: Config) {
               </message>
             );
           } else {
-            const dataurl = config.useMix ? await mixImage(image) : image.urls.original;
+            const dataurl = config.imageConfusion ? await mixImage(image) : image.urls.original;
 
             messages.push(
               <message>
