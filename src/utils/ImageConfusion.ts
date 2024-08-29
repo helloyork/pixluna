@@ -55,7 +55,7 @@ function getImageMimeType(url: string): string {
   return TypeMap[MimeType];
 }
 
-export async function mixImage(image: Lolicon): Promise<string> {
+export async function imageConfusion(image: Lolicon): Promise<string> {
   return arrayBufferToDataUrl(await readRemoteImage(image.urls.original, (img) => {
     applyImageConfusion(img)
   }), getImageMimeType(image.urls.original))

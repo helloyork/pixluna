@@ -1,7 +1,7 @@
 import { Context, Random } from 'koishi';
 import { AxiosRequestConfig, Method } from "axios";
 
-import { mixImage } from './utils/ImageConfusion';
+import { imageConfusion } from './utils/ImageConfusion';
 import { Lolicon } from "./utils/Interface";
 import { HttpUtil } from "./utils/HttpUtil";
 
@@ -33,7 +33,7 @@ export function apply(ctx: Context, config: Config) {
               </message>
             );
           } else {
-            const dataurl = config.imageConfusion ? await mixImage(image) : image.urls.original;
+            const dataurl = config.imageConfusion ? await imageConfusion(image) : image.urls.original;
 
             messages.push(
               <message>
