@@ -7,7 +7,7 @@ export interface Config {
   r18P: number;
   excludeAI: boolean;
   baseUrl: string;
-  useMix: boolean;
+  imageConfusion: boolean;
 }
 
 // @ts-ignore
@@ -17,7 +17,7 @@ export const Config: Schema<Config> = Schema.intersect([
     isProxy: Schema.boolean().default(false).description('是否使用代理'),
     excludeAI: Schema.boolean().default(false).description('是否排除 AI 作品'),
     baseUrl: Schema.string().default('i.pixiv.re').description('图片反代服务地址'),
-    useMix: Schema.boolean().default(false).description('是否混淆图片'),
+    imageConfusion: Schema.boolean().default(false).description('是否混淆图片'),
   }),
   Schema.union([
     Schema.object({
