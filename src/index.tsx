@@ -4,6 +4,7 @@ import { AxiosRequestConfig, Method } from "axios";
 import { readRemoteImage, applyImageConfusion } from './utils/ImageConfusion'; // 导入新功能
 import { Lolicon } from "./utils/Interface";
 import Config from "./config";
+import Jimp from 'jimp';
 export * from './config';
 
 const pixivUrl = {
@@ -58,7 +59,7 @@ export function apply(ctx: Context, config: Config) {
 
             messages.push(
               <message>
-                <image url={imageUrl}></image>
+                <image url={dataurl}></image>
                 <text content={`\ntitle：${image.title}\n`}></text>
                 <text content={`id：${image.pid}\n`}></text>
                 <text content={`tags：${image.tags.map((item) => {
