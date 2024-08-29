@@ -11,11 +11,9 @@ const pixivUrl = {
   url: 'https://api.lolicon.app/setu/v2'
 };
 
-let _config: Config;
 
 export function apply(ctx: Context, config: Config) {
   const logger = ctx.logger('pixiv');
-  _config = config;
   ctx.command('来张色图 [tag:text]', '随机一张色图')
     .option('n', '-n <value:number>', {
       fallback: 1,
@@ -27,7 +25,7 @@ export function apply(ctx: Context, config: Config) {
       const messages = [];
       for (let i = 0; i < Math.min(10, options.n); i++) {
         try {
-          image = await getPixivImage(ctx, tag);
+          image = await getPixivImage(ctx, tag, config);
           if (!image || !image?.urls?.original) {
             messages.push(
               <message>
@@ -76,10 +74,10 @@ export function apply(ctx: Context, config: Config) {
     });
 }
 
-async function getPixivImage(ctx: Context, tag: string) {
+async function getPixivImage(ctx: Context, tag: string, config: Config) {
   const params: Record<string, any> = {};
-  if (_config.isR18) {
-    params['r18'] = Random.bool(_config.r18P) ? 1 : 0;
+  if (config.isR18) {
+    params['r18'] = Random.bool(config.r18P) ? 1 : 0;
   } else {
     params['r18'] = 0;
   }
@@ -88,24 +86,24 @@ async function getPixivImage(ctx: Context, tag: string) {
     params['tag'] = tag.split(' ').join('|');
   }
 
-  if (_config.excludeAI) {
+  if (config.excludeAI) {
     params['excludeAI'] = true;
   }
 
-  if (_config.baseUrl) {
-    params['proxy'] = _config.baseUrl;
+  if (config.baseUrl) {
+    params['proxy'] = config.baseUrl;
   }
 
-  const res = await ctx.http.get(HttpUtil.setParams(pixivUrl.url, params), getAxiosConfig() as any);
+  const res = await ctx.http.get(HttpUtil.setParams(pixivUrl.url, params), getAxiosConfig(config) as any);
   return res.data[0];
 }
 
-const getAxiosConfig = (): AxiosRequestConfig | undefined => {
-  if (!_config.isProxy) {
+function getAxiosConfig(config: Config): AxiosRequestConfig | undefined {
+  if (!config.isProxy) {
     return undefined;
   }
 
-  const proxyUrl = new URL(_config.proxyHost);
+  const proxyUrl = new URL(config.proxyHost);
   return {
     proxy: {
       host: proxyUrl.hostname,
@@ -115,21 +113,5 @@ const getAxiosConfig = (): AxiosRequestConfig | undefined => {
     method: 'GET' as Method,
   };
 };
-
-function getImageMimeType(url: string): string {
-  const MimeType = url.split('.').pop();
-  const TypeMap = {
-    jpg: "image/jpeg",
-    jpeg: "image/jpeg",
-    png: "image/png",
-    gif: "image/gif",
-  };
-  return TypeMap[MimeType];
-}
-
-function arrayBufferToDataUrl(arrayBuffer: ArrayBuffer, type: string): string {
-  const base64 = Buffer.from(arrayBuffer).toString('base64');
-  return `data:${type};base64,${base64}`;
-}
 
 export * from './config';
