@@ -12,7 +12,7 @@
 | excludeAI | 排除AI作品 | false |
 | proxyHost | 代理服务器的地址，仅在isProxy为真时有效 | http://127.0.0.1:7890 |
 | baseUrl | 图片反向代理服务的域名 | i.pixiv.re |
-| useMix | 是否修改图片以更改哈希 | false |
+| imageConfusion | 是否开启图片混淆以尝试绕过哈希审查 | false |
 
 ### 使用方法
 
