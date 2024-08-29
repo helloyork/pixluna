@@ -1,7 +1,8 @@
 import Jimp from 'jimp';
 import JimpConstructors from 'jimp/types';
+import { Lolicon } from './Interface';
 
-export async function readRemoteImage(url: string, onRead?: (image: JimpConstructors) => void): Promise<ArrayBuffer> {
+async function readRemoteImage(url: string, onRead?: (image: JimpConstructors) => void): Promise<ArrayBuffer> {
   const MimeType = url.split('.').pop();
   const TypeMap = {
     jpg: Jimp.MIME_JPEG,
@@ -17,7 +18,7 @@ export async function readRemoteImage(url: string, onRead?: (image: JimpConstruc
   });
 }
 
-export function applyImageConfusion(image: JimpConstructors): void {
+function applyImageConfusion(image: JimpConstructors): void {
   const dotDiameter = 10;
   const x = image.bitmap.width - dotDiameter;
   const y = image.bitmap.height - dotDiameter;
@@ -37,3 +38,26 @@ export function applyImageConfusion(image: JimpConstructors): void {
     }
   }
 }
+
+function arrayBufferToDataUrl(arrayBuffer: ArrayBuffer, type: string): string {
+  const base64 = Buffer.from(arrayBuffer).toString('base64');
+  return `data:${type};base64,${base64}`;
+}
+
+function getImageMimeType(url: string): string {
+  const MimeType = url.split('.').pop();
+  const TypeMap = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    gif: "image/gif",
+  };
+  return TypeMap[MimeType];
+}
+
+export async function mixImage(image: Lolicon): Promise<string> {
+  return arrayBufferToDataUrl(await readRemoteImage(image.urls.original, (img) => {
+    applyImageConfusion(img)
+  }), getImageMimeType(image.urls.original))
+}
+
