@@ -8,6 +8,7 @@ export interface Config {
   excludeAI: boolean;
   baseUrl: string;
   imageConfusion: boolean;
+  maxConcurrency: number;
 }
 
 // @ts-ignore
@@ -18,7 +19,8 @@ export const Config: Schema<Config> = Schema.intersect([
     isProxy: Schema.boolean().default(false).description('是否使用代理'),
     excludeAI: Schema.boolean().default(false).description('是否排除 AI 生成作品'),
     baseUrl: Schema.string().default('i.pixiv.re').description('图片反代服务的地址'),
-    imageConfusion: Schema.boolean().default(false).description('是否启用图片混淆处理')
+    imageConfusion: Schema.boolean().default(false).description('是否启用图片混淆处理'),
+    maxConcurrency: Schema.number().default(1).description('最大并发请求数').min(1).max(10).step(1),
   }).description('通用设置'),
 
   Schema.union([

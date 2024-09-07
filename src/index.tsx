@@ -6,6 +6,7 @@ import { Lolicon } from "./utils/Interface";
 import { HttpUtil } from "./utils/HttpUtil";
 
 import type Config from "./config";
+import { ParallelPool } from './utils/pools';
 
 const pixivUrl = {
   url: 'https://api.lolicon.app/setu/v2'
@@ -23,37 +24,43 @@ export function apply(ctx: Context, config: Config) {
       let image: Lolicon;
       await session.send('不可以涩涩哦~');
       const messages = [];
+      const pool = new ParallelPool(config.maxConcurrency);
       for (let i = 0; i < Math.min(10, options.n); i++) {
-        try {
-          image = await getPixivImage(ctx, tag, config);
-          if (!image || !image?.urls?.original) {
+        pool.add(new Promise<void>(async resolve => {
+          try {
+            image = await getPixivImage(ctx, tag, config);
+            if (!image || !image?.urls?.original) {
+              messages.push(
+                <message>
+                  <text content={'没有获取到喵\n'}></text>
+                </message>
+              );
+            } else {
+              const dataurl = config.imageConfusion ? await mixImage(image) : image.urls.original;
+  
+              messages.push(
+                <message>
+                  <image url={dataurl}></image>
+                  <text content={`\ntitle：${image.title}\n`}></text>
+                  <text content={`id：${image.pid}\n`}></text>
+                  <text content={`tags：${image.tags.map((item) => {
+                    return '#' + item;
+                  }).join(' ')}\n`}></text>
+                </message>
+              );
+            }
+          } catch (e) {
             messages.push(
               <message>
-                <text content={'没有获取到喵\n'}></text>
+                <text content={`图片获取失败了喵~，${e}`}></text>
               </message>
             );
-          } else {
-            const dataurl = config.imageConfusion ? await mixImage(image) : image.urls.original;
-
-            messages.push(
-              <message>
-                <image url={dataurl}></image>
-                <text content={`\ntitle：${image.title}\n`}></text>
-                <text content={`id：${image.pid}\n`}></text>
-                <text content={`tags：${image.tags.map((item) => {
-                  return '#' + item;
-                }).join(' ')}\n`}></text>
-              </message>
-            );
+          } finally {
+            resolve();
           }
-        } catch (e) {
-          messages.push(
-            <message>
-              <text content={`图片获取失败了喵~，${e}`}></text>
-            </message>
-          );
-        }
+        }))
       }
+      await pool.run();
       session.send(
         <>
           <message forward={true}>
