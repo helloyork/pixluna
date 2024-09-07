@@ -53,9 +53,9 @@ export async function mixImage(image: Lolicon): Promise<string> {
   for (let y = startY; y < height; y++) {
     for (let x = startX; x < width; x++) {
       const idx = (y * width + x) * info.channels;
-      data[idx] = (data[idx] + 100 < 255) ? data[idx] + 10 : 255;
-      data[idx + 1] = (data[idx + 1] + 100 < 255) ? data[idx + 1] + 10 : 255;
-      data[idx + 2] = (data[idx + 2] + 100 < 255) ? data[idx + 2] + 10 : 255;
+      data[idx] = (data[idx] + 10 < 255) ? data[idx] + 10 : 255 - data[idx];
+      data[idx + 1] = (data[idx + 1] + 10 < 255) ? data[idx + 1] + 10 : 255 - data[idx];
+      data[idx + 2] = (data[idx + 2] + 10 < 255) ? data[idx + 2] + 10 : 255 - data[idx];
     }
   }
 
