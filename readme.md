@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/@q78kg/koishi-plugin-pixiv?style=flat-square)](https://www.npmjs.com/package/@q78kg/koishi-plugin-pixiv)
 
-使用lolicon api从pixiv中随机获取一张图片
+使用Lolicon API从Pixiv中随机获取一张图片
 
 ## 功能
 
