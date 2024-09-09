@@ -21,14 +21,13 @@ export function apply(ctx: Context, config: Config) {
     })
     .alias('色图')
     .action(async ({ session, options }, tag) => {
-      let image: Lolicon;
       await session.send('不可以涩涩哦~');
       const messages = [];
       const pool = new ParallelPool(config.maxConcurrency);
       for (let i = 0; i < Math.min(10, options.n); i++) {
         pool.add(new Promise<void>(async resolve => {
           try {
-            image = await getPixivImage(ctx, tag, config);
+            let image = await getPixivImage(ctx, tag, config);
             if (!image || !image?.urls?.original) {
               messages.push(
                 <message>
@@ -36,14 +35,14 @@ export function apply(ctx: Context, config: Config) {
                 </message>
               );
             } else {
-              const dataurl = config.imageConfusion ? await mixImage(image) : image.urls.original;
+              const dataurl = config.imageConfusion ? await mixImage(ctx, image) : image.urls.original;
   
               messages.push(
                 <message>
                   <image url={dataurl}></image>
                   <text content={`\ntitle：${image.title}\n`}></text>
                   <text content={`id：${image.pid}\n`}></text>
-                  <text content={`tags：${image.tags.map((item) => {
+                  <text content={`tags：${image.tags.map((item: string) => {
                     return '#' + item;
                   }).join(' ')}\n`}></text>
                 </message>

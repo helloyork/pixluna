@@ -1,13 +1,9 @@
 import sharp from 'sharp';
-import axios from 'axios';
 import { Lolicon } from './Interface';
-import stream from 'stream';
-import { promisify } from 'util';
+import { Context } from 'koishi';
 
-const streamPipeline = promisify(stream.pipeline);
-
-async function fetchImageStream(url: string): Promise<NodeJS.ReadableStream> {
-  const response = await axios({
+async function fetchImageStream(ctx: Context, url: string): Promise<NodeJS.ReadableStream> {
+  const response = await ctx.http.axios({
     url,
     method: "GET",
     responseType: "stream"
@@ -37,8 +33,8 @@ async function streamToBuffer(stream: NodeJS.ReadableStream) {
   return Buffer.concat(chunks);
 }
 
-export async function mixImage(image: Lolicon): Promise<string> {
-  const imageStream = await fetchImageStream(image.urls.original);
+export async function mixImage(ctx: Context, image: Lolicon): Promise<string> {
+  const imageStream = await fetchImageStream(ctx, image.urls.original);
 
   const imageBuffer = await streamToBuffer(imageStream);
   const { width, height } = await sharp(imageBuffer).metadata();
