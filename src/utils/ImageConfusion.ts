@@ -3,7 +3,7 @@ import { Lolicon } from './Interface';
 import { Context } from 'koishi';
 
 async function fetchImageStream(ctx: Context, url: string): Promise<NodeJS.ReadableStream> {
-  const response = await ctx.http({
+  const response = await ctx.http.axios({
     url,
     method: "GET",
     responseType: "stream"
