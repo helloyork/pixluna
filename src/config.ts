@@ -34,7 +34,7 @@ export const Config: Schema<Config> = Schema.intersect([
       .step(1),
     forwardMessage: Schema.boolean()
       .default(true)
-      .description("是否以转发消息的格式回复。"),
+      .description("是否以转发消息格式发送图片。"),
     compress: Schema.boolean()
       .default(false)
       .description("是否压缩图片（能大幅度提升发送的速度，需要 `QhzySharp` 服务。"),
