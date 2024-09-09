@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/@q78kg/koishi-plugin-pixiv?style=flat-square)](https://www.npmjs.com/package/@q78kg/koishi-plugin-pixiv)
 
-从pixiv中随机获取一张图片
+使用Lolicon API从Pixiv中随机获取一张图片
 
 ## 功能
 
@@ -11,6 +11,7 @@
 - [x] 支持自定义反代地址
 - [x] 支持指定随机图片的数量
 - [x] 支持指定R18作品出现概率
+- [x] 支持多并发获取图片
 - [ ] 支持选择是否以转发的形式打包发送图片
 
 ## 配置项
