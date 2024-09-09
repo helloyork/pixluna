@@ -16,3 +16,8 @@ tsconfig.tsbuildinfo
 *.ntvs*
 *.njsproj
 *.sln
+
+# use yakumo!!!
+yarn.lock
+package-lock.json
+.pnp.js
