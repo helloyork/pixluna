@@ -1,7 +1,7 @@
 {
   "name": "@q78kg/koishi-plugin-pixiv",
   "description": "使用Lolicon API从Pixiv中随机获取一张图片",
-  "version": "1.2.0",
+  "version": "1.2.1-beta.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
