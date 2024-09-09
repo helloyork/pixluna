@@ -1,15 +1,20 @@
 {
   "name": "@q78kg/koishi-plugin-pixiv",
-  "description": "使用Lolicon API从Pixiv中随机获取一张图片",
+  "description": "使用 Lolicon API 从 Pixiv 中随机获取图片",
   "version": "1.2.1-beta.1",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
-  "files": [
-    "lib"
-  ],
+  "main": "lib/index.cjs",
+  "module": "lib/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs",
+      "types": "./lib/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "type": "module",
   "license": "MIT",
   "homepage": "https://github.com/Hoshino-Yumetsuki/koishi-plugin-pixiv",
-  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hoshino-Yumetsuki/koishi-plugin-pixiv"
@@ -20,12 +25,32 @@
     "plugin",
     "色图"
   ],
+  "author": "dingyi222666 <dingyi222666@foxmail.com>",
   "peerDependencies": {
-    "koishi": "^4.13.1"
+    "@koishijs/plugin-proxy-agent": "^0.3.3",
+    "@quanhuzeyu/koishi-plugin-qhzy-sharp": "^1.0.0",
+    "koishi": "^4.17.0"
+  },
+  "peerDependenciesMeta": {
+    "@quanhuzeyu/koishi-plugin-qhzy-sharp": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@quanhuzeyu/koishi-plugin-qhzy-sharp": "^1.0.0",
+    "@koishijs/plugin-proxy-agent": "^0.3.3"
   },
   "dependencies": {
-    "axios": "^1.7.5",
-    "koishi": "^4.13.1",
-    "sharp": "^0.33.5"
+    "@satorijs/element": "^3.1.7"
+  },
+  "koishi": {
+    "description": {
+      "zh": "使用 Lolicon API 从 Pixiv 中随机获取图片"
+    },
+    "service": {
+      "optional": [
+        "QhzySharp"
+      ]
+    }
   }
 }

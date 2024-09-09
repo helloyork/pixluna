@@ -6,13 +6,14 @@
 
 ## 功能
 
-- [x] 支持基于更改像素的图片混淆以实现稳定涩涩
-- [x] 支持过滤AI作品
-- [x] 支持自定义反代地址
-- [x] 支持指定随机图片的数量
-- [x] 支持指定R18作品出现概率
-- [x] 支持多并发获取图片
-- [ ] 支持选择是否以转发的形式打包发送图片
+- [x] 基于更改像素的图片混淆以实现稳定涩涩
+- [x] 可选过滤 AI 作品
+- [x] 自定义反代地址
+- [x] 指定随机图片的数量
+- [x] 指定 R18 作品出现概率
+- [x] 多并发获取图片
+- [x] 可选是否以转发的形式打包发送图片
+- [x] 压缩图片（开启后不发送原图，提升发送速度）
 
 ## 配置项
 
@@ -25,6 +26,9 @@
 | proxyHost | 代理服务器的地址，仅在isProxy为真时有效 | http://127.0.0.1:7890 |
 | baseUrl | 图片反向代理服务的域名 | i.pixiv.re |
 | imageConfusion | 是否开启图片混淆以尝试绕过哈希审查 | false |
+| formatMessage | 是否以转发消息的形式发送图片 | true |
+| maxConcurrency | 最大并发数 | 1 |
+| compress | 是否压缩图片 | false |
 
 ## 使用方法
 
@@ -40,3 +44,9 @@
 来张色图 -n 5 黑丝
 ```
 即可随机获取5张黑丝的图片，关键词一定要放在最后面
+
+## 贡献者名单
+
+<a href="https://github.com/Hoshino-Yumetsuki/koishi-plugin-pixiv/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Hoshino-Yumetsuki/koishi-plugin-pixiv" />
+</a>
