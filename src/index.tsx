@@ -37,7 +37,7 @@ export function apply(ctx: Context, config: Config) {
                 <message forward={config.forwardMessage}>{messages}</message>
               </>,
             );
-          }
+          } return session.send
 
           return session.send(messages);
         });
