@@ -32,12 +32,12 @@ export function apply(ctx: Context, config: Config) {
       try {
         id = await taskTime(ctx, "send message", () => {
           if (config.forwardMessage) {
-            return session.send(
+            session.send(
               <>
                 <message forward={config.forwardMessage}>{messages}</message>
               </>,
             );
-          }
+          } return session.send
 
           return session.send(messages);
         });
