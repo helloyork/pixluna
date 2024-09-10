@@ -25,7 +25,6 @@
     "plugin",
     "色图"
   ],
-  "author": "dingyi222666 <dingyi222666@foxmail.com>",
   "peerDependencies": {
     "@koishijs/plugin-proxy-agent": "^0.3.3",
     "@quanhuzeyu/koishi-plugin-qhzy-sharp": "^1.0.0",
