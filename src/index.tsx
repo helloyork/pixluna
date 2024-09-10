@@ -1,4 +1,4 @@
-import { Context, h, Fragment } from "koishi";
+import { Context, h } from "koishi";
 import type Config from "./config";
 import { ParallelPool } from "./utils/pool";
 import { render } from "./utils/renderer";
