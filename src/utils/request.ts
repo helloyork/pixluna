@@ -8,7 +8,7 @@ import {
   mixImage,
   qualityImage,
 } from "./image_confusion";
-import type {} from "@quanhuzeyu/koishi-plugin-qhzy-sharp";
+import sharp from "sharp"; // Import sharp library directly
 
 const RANDOM_IMAGE_URL = "https://api.lolicon.app/setu/v2";
 
@@ -27,9 +27,9 @@ export async function getPixivImage(ctx: Context, tag: string, config: Config) {
     params["proxy"] = config.baseUrl;
   }
 
-  if ((config.imageConfusion || config.compress) && !ctx.QhzySharp) {
+  if ((config.imageConfusion || config.compress) && !sharp) {
     ctx.logger.warn(
-      "启用了图片混淆或者图片压缩选项，但是没有检查到安装或启用 sharp 服务，这些配置将无效。请安装 sharp 服务。",
+      "启用了图片混淆或者图片压缩选项，但是没有检查到安装 sharp 服务，这些配置将无效。请安装 sharp 服务。",
     );
   }
 
@@ -41,7 +41,7 @@ export async function getPixivImage(ctx: Context, tag: string, config: Config) {
       return res.data?.[0];
     });
 
-  if (!res || (!res?.urls?.regular && !res.urls?.original)) {
+  if (!res || (!res?.urls?.regular && !res.urls.original)) {
     return null;
   }
 
@@ -54,7 +54,7 @@ export async function getPixivImage(ctx: Context, tag: string, config: Config) {
   const data = await taskTime(ctx, "mixImage", async () => {
     const imageBufferArray = await fetchImageBuffer(ctx, config, url);
 
-    if (config.imageConfusion && ctx.QhzySharp) {
+    if (config.imageConfusion && sharp) {
       return await mixImage(
         ctx,
         imageBufferArray,
@@ -63,8 +63,8 @@ export async function getPixivImage(ctx: Context, tag: string, config: Config) {
     }
 
     return h.image(
-      config.compress && !res.urls.regular && ctx.QhzySharp
-        ? await qualityImage(ctx,imageBufferArray[0], imageBufferArray[1])
+      config.compress && !res.urls.regular && sharp
+        ? await qualityImage(ctx, imageBufferArray[0], imageBufferArray[1])
         : imageBufferArray[0],
       getImageMimeType(imageBufferArray[1]),
     );
