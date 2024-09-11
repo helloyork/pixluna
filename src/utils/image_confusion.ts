@@ -26,16 +26,16 @@ export async function qualityImage(
   let qualifiedImage: Buffer;
 
   if (imageType === "jpeg" || imageType === "jpg") {
-    qualifedImage = await image.jpeg({ quality: 65 }).toBuffer();
+    qualifiedImage = await image.jpeg({ quality: 65 }).toBuffer();
   } else {
-    qualifedImage = await image.png({ quality: 65 }).toBuffer();
+    qualifiedImage = await image.png({ quality: 65 }).toBuffer();
   }
 
   image.destroy();
 
   image = undefined;
 
-  return qualifedImage;
+  return qualifiedImage;
 }
 
 export async function mixImage(
