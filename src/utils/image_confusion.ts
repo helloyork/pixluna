@@ -1,5 +1,5 @@
 import { Context, h } from "koishi";
-import type {} from "@quanhuzeyu/koishi-plugin-qhzy-sharp";
+import sharp from "sharp"; // Import sharp library directly
 
 const IMAGE_MINE_TYPE_MAP = {
   jpg: "image/jpeg",
@@ -21,9 +21,9 @@ export async function qualityImage(
   imageBuffer: ArrayBuffer,
   imageType: IMAGE_MINE_TYPE,
 ) {
-  let image = ctx.QhzySharp.Sharp(imageBuffer);
+  let image = sharp(imageBuffer);
 
-  let qualifedImage: Buffer;
+  let qualifiedImage: Buffer;
 
   if (imageType === "jpeg" || imageType === "jpg") {
     qualifedImage = await image.jpeg({ quality: 65 }).toBuffer();
@@ -50,7 +50,7 @@ export async function mixImage(
     imageBuffer = await qualityImage(ctx, imageBuffer, imageType);
   }
 
-  let image = ctx.QhzySharp.Sharp(imageBuffer);
+  let image = sharp(imageBuffer);
 
   const { width, height } = await image.metadata();
 
@@ -73,7 +73,7 @@ export async function mixImage(
   // clear the memory?
   image.destroy();
 
-  image = ctx.QhzySharp.Sharp(data, {
+  image = sharp(data, {
     raw: {
       width: info.width,
       height: info.height,
