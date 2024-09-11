@@ -66,9 +66,3 @@ export const Config: Schema<Config> = Schema.intersect([
 export const name = "pixiv";
 
 export default Config;
-
-export const inject = {
-  "QhzySharp": {
-    required: false,
-  }
-}
