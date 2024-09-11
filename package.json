@@ -27,16 +27,11 @@
   ],
   "peerDependencies": {
     "@koishijs/plugin-proxy-agent": "^0.3.3",
-    "@quanhuzeyu/koishi-plugin-qhzy-sharp": "^1.0.0",
+    "sharp": "^0.33.8",
     "koishi": "^4.17.0"
   },
-  "peerDependenciesMeta": {
-    "@quanhuzeyu/koishi-plugin-qhzy-sharp": {
-      "optional": true
-    }
-  },
   "devDependencies": {
-    "@quanhuzeyu/koishi-plugin-qhzy-sharp": "^1.0.0",
+    "sharp": "^0.33.8",
     "@koishijs/plugin-proxy-agent": "^0.3.3"
   },
   "dependencies": {
@@ -45,11 +40,6 @@
   "koishi": {
     "description": {
       "zh": "使用 Lolicon API 从 Pixiv 中随机获取图片"
-    },
-    "service": {
-      "optional": [
-        "QhzySharp"
-      ]
     }
   }
 }
