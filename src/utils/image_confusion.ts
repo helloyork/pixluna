@@ -58,19 +58,23 @@ export async function mixImage(
     .raw()
     .toBuffer({ resolveWithObject: true });
 
-  const startX = Math.max(0, width - 50);
-  const startY = Math.max(0, height - 50);
+  // 选择右下角1*1像素
+  const startX = Math.max(0, width - 1);
+  const startY = Math.max(0, height - 1);
 
   for (let y = startY; y < height; y++) {
     for (let x = startX; x < width; x++) {
       const idx = (y * width + x) * info.channels;
-      data[idx] = data[idx] + 10 < 255 ? data[idx] + 10 : 245;
-      data[idx + 1] = data[idx + 1] + 10 < 255 ? data[idx + 1] + 10 : 245;
-      data[idx + 2] = data[idx + 2] + 10 < 255 ? data[idx + 2] + 10 : 245;
+      // 修改 R 通道
+      data[idx] = data[idx] + 1 <= 255 ? data[idx] + 1 : data[idx] - 1;
+      // 修改 G 通道
+      data[idx + 1] = data[idx + 1] + 1 <= 255 ? data[idx + 1] + 1 : data[idx + 1] - 1;
+      // 修改 B 通道
+      data[idx + 2] = data[idx + 2] + 1 <= 255 ? data[idx + 2] + 1 : data[idx + 2] - 1;
     }
   }
 
-  // clear the memory?
+  // 释放内存
   image.destroy();
 
   image = sharp(data, {
