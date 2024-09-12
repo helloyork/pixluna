@@ -25,7 +25,7 @@ export const Config: Schema<Config> = Schema.intersect([
       .description("是否排除 AI 生成作品。"),
     imageConfusion: Schema.boolean()
       .default(false)
-      .description("是否启用图片混淆处理。（对某些平台有奇效，需要 `QhzySharp` 服务，否则无法正常使用）"),
+      .description("是否启用图片混淆处理。（对某些平台有奇效"),
     maxConcurrency: Schema.number()
       .default(1)
       .description("最大并发请求数。")
@@ -37,7 +37,7 @@ export const Config: Schema<Config> = Schema.intersect([
       .description("是否以转发消息格式发送图片。"),
     compress: Schema.boolean()
       .default(false)
-      .description("是否压缩图片（能大幅度提升发送的速度，需要 `QhzySharp` 服务。"),
+      .description("是否压缩图片（能大幅度提升发送的速度"),
   }).description("通用设置"),
 
   // R18 内容设置
