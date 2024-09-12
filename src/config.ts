@@ -25,7 +25,7 @@ export const Config: Schema<Config> = Schema.intersect([
       .description("是否排除 AI 生成作品。"),
     imageConfusion: Schema.boolean()
       .default(false)
-      .description("是否启用图片混淆处理。（对某些平台有奇效"),
+      .description("是否启用图片混淆处理。（对某些平台有奇效）"),
     maxConcurrency: Schema.number()
       .default(1)
       .description("最大并发请求数。")
