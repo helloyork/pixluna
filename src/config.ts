@@ -37,7 +37,7 @@ export const Config: Schema<Config> = Schema.intersect([
       .description("是否以转发消息格式发送图片。"),
     compress: Schema.boolean()
       .default(false)
-      .description("是否压缩图片（能大幅度提升发送的速度"),
+      .description("是否压缩图片（能大幅度提升发送的速度）"),
   }).description("通用设置"),
 
   // R18 内容设置
