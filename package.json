@@ -27,15 +27,15 @@
   ],
   "peerDependencies": {
     "@koishijs/plugin-proxy-agent": "^0.3.3",
-    "koishi": "^4.17.0"
+    "koishi": "^4.17.0",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@koishijs/plugin-proxy-agent": "^0.3.3",
     "sharp": "^0.33.5"
   },
   "dependencies": {
-    "@satorijs/element": "^3.1.7",
-    "sharp": "^0.33.5"
+    "@satorijs/element": "^3.1.7"
   },
   "koishi": {
     "description": {
