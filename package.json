@@ -1,15 +1,20 @@
 {
   "name": "@q78kg/koishi-plugin-pixiv",
-  "description": "使用Lolicon API从Pixiv中随机获取一张图片",
-  "version": "1.2.0",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
-  "files": [
-    "lib"
-  ],
+  "description": "从 Pixiv 中随机获取图片",
+  "version": "2.0.5-beta.4",
+  "main": "lib/index.cjs",
+  "module": "lib/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs",
+      "types": "./lib/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "type": "module",
   "license": "MIT",
   "homepage": "https://github.com/Hoshino-Yumetsuki/koishi-plugin-pixiv",
-  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hoshino-Yumetsuki/koishi-plugin-pixiv"
@@ -21,11 +26,20 @@
     "色图"
   ],
   "peerDependencies": {
-    "koishi": "^4.13.1"
+    "@koishijs/plugin-proxy-agent": "^0.3.3",
+    "koishi": "^4.17.0",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@koishijs/plugin-proxy-agent": "^0.3.3",
+    "sharp": "^0.33.5"
   },
   "dependencies": {
-    "axios": "^1.7.5",
-    "koishi": "^4.13.1",
-    "sharp": "^0.33.5"
+    "@satorijs/element": "^3.1.7"
+  },
+  "koishi": {
+    "description": {
+      "zh": "使用 Lolicon API 从 Pixiv 中随机获取图片"
+    }
   }
 }
