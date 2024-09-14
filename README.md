@@ -1,8 +1,8 @@
 # PixLuna
 
-[![npm](https://img.shields.io/npm/v/@q78kg/koishi-plugin-pixiv?style=flat-square)](https://www.npmjs.com/package/@q78kg/koishi-plugin-pixiv)
+[![npm](https://img.shields.io/npm/v/koishi-plugin-pixluna?style=flat-square)](https://www.npmjs.com/package/koishi-plugin-pixluna)
 
-多图源整合式图片获取插件！
+多图源整合式图片获取插件！（正在开发中）
 
 ## 功能
 
@@ -14,6 +14,14 @@
 - [x] 多并发获取图片
 - [x] 可选是否以转发的形式打包发送图片
 - [x] 压缩图片（开启后不发送原图，提升发送速度）
+
+## TODO（画饼 ing...）
+
+- [ ] 支持更多的平台
+- [ ] 提供接入图源的统一接口
+- [ ] 重构屎山代码
+- [ ] 自主判断平台是否能够支持以转发的方式打包图片
+- [ ] 发布 v1 版本
 
 ## 配置项
 
