@@ -47,6 +47,6 @@
 
 ## 贡献者名单
 
-<a href="https://github.com/Hoshino-Yumetsuki/koishi-plugin-pixiv/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Hoshino-Yumetsuki/koishi-plugin-pixiv" />
+<a href="https://github.com/Hoshino-Yumetsuki/pixluna/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Hoshino-Yumetsuki/pixluna" />
 </a>
