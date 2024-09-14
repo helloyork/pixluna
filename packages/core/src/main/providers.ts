@@ -1,18 +1,18 @@
 import { SourceProvider } from "../types/type";
-import { PixivSourceProvider } from "./providers/pixiv";
+import { LoliconSourceProvider } from "./providers/lolicon";
 
-export type ProviderTypes = "pixiv";
+export type ProviderTypes = "lolicon";
 export const Providers: {
   [K in ProviderTypes]: typeof SourceProvider;
 } = {
-  "pixiv": PixivSourceProvider,
+  "lolicon": LoliconSourceProvider,
 };
 
 export function getProvider(provider: string): typeof SourceProvider | undefined {
   if (provider in Providers) {
     return Providers[provider as ProviderTypes];
   } else {
-    console.warn(`Unknown provider: ${provider}. Defaulting to 'pixiv'.`);
-    return Providers["pixiv"];  // 默认返回 pixiv
+    console.warn(`Unknown provider: ${provider}. Defaulting to 'lolicon'.`);
+    return Providers["lolicon"];  // 默认返回 pixiv
   }
 }

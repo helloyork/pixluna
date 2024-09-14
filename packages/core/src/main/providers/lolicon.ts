@@ -3,14 +3,14 @@ import type { Config } from "../../config";  // 确保导入的是类型
 import type { CommonSourceRequest, ImageMetaData, LoliconRequest, SourceResponse } from "../../types/type";
 import { SourceProvider } from "../../types/type";
 
-export class PixivSourceProvider extends SourceProvider {
+export class LoliconSourceProvider extends SourceProvider {
   static RANDOM_IMAGE_URL = "https://api.lolicon.app/setu/v2";
 
   config: Config;
 
   async getMetaData({ context }: { context: Context }, props: CommonSourceRequest): Promise<SourceResponse<ImageMetaData>> {
     const res = await context.http
-      .post<LoliconRequest>(PixivSourceProvider.RANDOM_IMAGE_URL, props, {
+      .post<LoliconRequest>(LoliconSourceProvider.RANDOM_IMAGE_URL, props, {
         proxyAgent: this.config.isProxy ? this.config.proxyHost : undefined,
       })
       .then(async (res) => {

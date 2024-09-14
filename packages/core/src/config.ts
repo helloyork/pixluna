@@ -45,9 +45,10 @@ export const Config: Schema<Config> = Schema.intersect([
       .description("是否压缩图片（能大幅度提升发送的速度，但是对图片质量有影响）"),
 
     srcProvider: Schema.union([
-      Schema.const('pixiv'),
+      Schema.const('lolicon').description('Lolicon API'),
+      Schema.const('none').description('无')
     ])
-      .default('pixiv')
+      .default('lolicon')
       .description("图片来源"),
 
   }).description("通用设置"),

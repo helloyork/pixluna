@@ -3,7 +3,7 @@ import type Config from "./config";
 import { ParallelPool } from "./utils/data";
 import { render } from "./main/renderer";
 import { taskTime } from "./utils/data";
-import { PixivSourceProvider } from "./main/providers/pixiv";
+import { LoliconSourceProvider } from "./main/providers/lolicon";
 
 export function apply(ctx: Context, config: Config) {
   ctx
@@ -15,7 +15,7 @@ export function apply(ctx: Context, config: Config) {
     .action(async ({ session, options }, tag) => {
       await session.send("不可以涩涩哦~");
 
-      PixivSourceProvider.getInstance<PixivSourceProvider>().setConfig(config);
+      LoliconSourceProvider.getInstance<LoliconSourceProvider>().setConfig(config);
 
       const messages: h[] = [];
       const pool = new ParallelPool<void>(config.maxConcurrency);
