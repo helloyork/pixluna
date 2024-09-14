@@ -1,8 +1,14 @@
-# PixLuna
+
+
+<div align="center">
+
+<h1>PixLuna</h1>
+
+<i>多图源整合式图片获取插件！（正在开发中）</i>
 
 [![npm](https://img.shields.io/npm/v/koishi-plugin-pixluna?style=flat-square)](https://www.npmjs.com/package/koishi-plugin-pixluna)
 
-多图源整合式图片获取插件！（正在开发中）
+</div>
 
 ## 功能
 
