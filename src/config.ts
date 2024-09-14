@@ -1,4 +1,5 @@
 import { Schema } from "koishi";
+import { Providers, ProviderTypes } from "./main/providers";
 
 export interface Config {
   isR18: boolean;
@@ -11,9 +12,13 @@ export interface Config {
   maxConcurrency: number;
   forwardMessage: boolean;
   compress: boolean;
+  srcProvider: ProviderTypes;
 }
 
-// @ts-ignore
+const providerTypes = Schema.union<Schema<string, ProviderTypes>>(
+  Object.keys(Providers).map((key) => 
+    Schema.const<ProviderTypes>(key as ProviderTypes))
+);
 export const Config: Schema<Config> = Schema.intersect([
   // 通用设置
   Schema.object({
@@ -38,6 +43,9 @@ export const Config: Schema<Config> = Schema.intersect([
     compress: Schema.boolean()
       .default(false)
       .description("是否压缩图片（能大幅度提升发送的速度，但是对图片质量有影响）"),
+    srcProvider: providerTypes
+      .default("pixiv" satisfies ProviderTypes)
+      .description("图片来源"),
   }).description("通用设置"),
 
   // R18 内容设置

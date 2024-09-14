@@ -1,31 +1,25 @@
 import { Context, h, Random } from "koishi";
-import type {} from "@koishijs/plugin-proxy-agent";
+import type { } from "@koishijs/plugin-proxy-agent";
 import Config from "../config";
-import { Lolicon, LoliconRequest } from "../type";
+import { Lolicon, LoliconRequest, SourceProvider } from "../types/type";
 import {
   getImageMimeType,
   IMAGE_MINE_TYPE,
   mixImage,
   qualityImage,
-} from "./image_confusion";
-import sharp from "sharp"; // Import sharp library directly
+} from "../utils/imageConfusion";
+import { taskTime } from "../utils/data";
 
 const RANDOM_IMAGE_URL = "https://api.lolicon.app/setu/v2";
 
-export async function getPixivImage(ctx: Context, tag: string, config: Config) {
-  const params: Record<string, any> = {
-    size: ["original", "regular"],
-    r18: config.isR18 ? (Random.bool(config.r18P) ? 1 : 0) : 0,
-    excludeAI: config.excludeAI,
-  };
-
-  if (tag !== undefined) {
-    params["tag"] = tag.split(" ").join("|");
-  }
-
-  if (config.baseUrl) {
-    params["proxy"] = config.baseUrl;
-  }
+export async function getRemoteImage(ctx: Context, tag: string, config: Config, provider: typeof SourceProvider): Promise<Lolicon & {
+  data: string | h;
+  raw: Lolicon;
+}> {
+  let sharp;
+  try {
+    sharp = (await import("sharp"))?.default;
+  } catch {}
 
   if ((config.imageConfusion || config.compress) && !sharp) {
     ctx.logger.warn(
@@ -33,23 +27,25 @@ export async function getPixivImage(ctx: Context, tag: string, config: Config) {
     );
   }
 
-  const res = await ctx.http
-    .post<LoliconRequest>(RANDOM_IMAGE_URL, params, {
-      proxyAgent: config.isProxy ? config.proxyHost : undefined,
-    })
-    .then(async (res) => {
-      return res.data?.[0];
-    });
+  const params = {
+    size: ["original", "regular"],
+    r18: config.isR18 ? (Random.bool(config.r18P) ? 1 : 0) : 0,
+    excludeAI: config.excludeAI,
+    tag: tag ? tag.split(" ").join("|") : void 0,
+    proxy: config.baseUrl ? config.baseUrl : void 0,
+  };
 
-  if (!res || (!res?.urls?.regular && !res.urls.original)) {
+  const srcProvider = provider.getInstance();
+  const metadata = await srcProvider.getMetaData({
+    context: ctx,
+  }, params);
+
+  if (metadata.status === "error") {
     return null;
   }
 
-  let url = res.urls.original;
-
-  if (config.compress) {
-    url = res.urls.regular || res.urls.original;
-  }
+  const response = metadata.data;
+  const {url, urls} = response;
 
   const data = await taskTime(ctx, "mixImage", async () => {
     const imageBufferArray = await fetchImageBuffer(ctx, config, url);
@@ -58,12 +54,12 @@ export async function getPixivImage(ctx: Context, tag: string, config: Config) {
       return await mixImage(
         ctx,
         imageBufferArray,
-        config.compress && !res.urls.regular,
+        config.compress && !urls.regular,
       );
     }
 
     return h.image(
-      config.compress && !res.urls.regular && sharp
+      config.compress && !urls.regular && sharp
         ? await qualityImage(ctx, imageBufferArray[0], imageBufferArray[1])
         : imageBufferArray[0],
       getImageMimeType(imageBufferArray[1]),
@@ -71,12 +67,9 @@ export async function getPixivImage(ctx: Context, tag: string, config: Config) {
   });
 
   return {
+    ...metadata.data.raw,
     data,
-    raw: res,
-    ...res,
-  } satisfies Lolicon & {
-    data: h;
-    raw: Lolicon;
+    raw: metadata.data.raw,
   };
 }
 
@@ -96,14 +89,3 @@ async function fetchImageBuffer(
   });
 }
 
-export async function taskTime<T>(
-  ctx: Context,
-  name: string,
-  task: () => Promise<T>,
-): Promise<T> {
-  const start = Date.now();
-
-  return task().finally(() => {
-    ctx.logger.debug(`task: ${name}, time: ${Date.now() - start}ms`);
-  });
-}

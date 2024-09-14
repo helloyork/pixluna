@@ -1,11 +1,11 @@
 import { Context } from "koishi";
 import Config from "../config";
-import { getPixivImage } from "./request";
+import { getRemoteImage } from "./request";
+import { getProvider } from "./providers";
 
 export async function render(ctx: Context, config: Config, tag: string) {
   try {
-    const image = await getPixivImage(ctx, tag, config);
-
+    const image = await getRemoteImage(ctx, tag, config, getProvider(config.srcProvider));
 
     if (!image) {
       return (
@@ -17,11 +17,17 @@ export async function render(ctx: Context, config: Config, tag: string) {
       );
     }
 
-    ctx.logger.debug("image " + JSON.stringify(image.raw));
+    ctx.logger.debug("image " + JSON.stringify(image));
+
+    const data = typeof image.data === "string" ? (
+      <image url={image.data}></image>
+    ) : (
+      image.data
+    );
 
     return (
       <>
-        {image.data}
+        {data}
         <text content={`\ntitle：${image.title}\n`}></text>
         <text content={`id：${image.pid}\n`}></text>
         <text
