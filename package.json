@@ -1,45 +1,30 @@
 {
-  "name": "@q78kg/koishi-plugin-pixiv",
-  "description": "从 Pixiv 中随机获取图片",
-  "version": "2.0.5-beta.4",
-  "main": "lib/index.cjs",
-  "module": "lib/index.mjs",
-  "exports": {
-    ".": {
-      "import": "./lib/index.mjs",
-      "require": "./lib/index.cjs",
-      "types": "./lib/index.d.ts"
-    },
-    "./package.json": "./package.json"
-  },
-  "type": "module",
-  "license": "MIT",
-  "homepage": "https://github.com/Hoshino-Yumetsuki/koishi-plugin-pixiv",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Hoshino-Yumetsuki/koishi-plugin-pixiv"
-  },
-  "keywords": [
-    "pixiv",
-    "koishi",
-    "plugin",
-    "色图"
+  "name": "@root/pixluna-koishi",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*"
   ],
-  "peerDependencies": {
-    "@koishijs/plugin-proxy-agent": "^0.3.3",
-    "koishi": "^4.17.0",
-    "sharp": "^0.33.5"
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "yakumo build",
+    "bump": "yakumo version",
+    "dep": "yakumo upgrade",
+    "pub": "yakumo publish"
   },
   "devDependencies": {
     "@koishijs/plugin-proxy-agent": "^0.3.3",
-    "sharp": "^0.33.5"
-  },
-  "dependencies": {
-    "@satorijs/element": "^3.1.7"
-  },
-  "koishi": {
-    "description": {
-      "zh": "使用 Lolicon API 从 Pixiv 中随机获取图片"
-    }
+    "@types/node": "^22.5.5",
+    "esbuild": "^0.23.1",
+    "js-yaml": "^4.1.0",
+    "koishi": "^4.17.12",
+    "sharp": "^0.33.5",
+    "typescript": "^5.7.0-dev.20240831",
+    "yakumo": "^1.0.0-beta.18",
+    "yakumo-esbuild": "^1.0.0-beta.6",
+    "yakumo-mocha": "^1.0.0-beta.2",
+    "yakumo-tsc": "^1.0.0-beta.4",
+    "yml-register": "^1.2.5"
   }
 }

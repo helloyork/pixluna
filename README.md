@@ -1,8 +1,8 @@
-# @q78kg/koishi-plugin-pixiv
+# PixLuna
 
 [![npm](https://img.shields.io/npm/v/@q78kg/koishi-plugin-pixiv?style=flat-square)](https://www.npmjs.com/package/@q78kg/koishi-plugin-pixiv)
 
-从 Pixiv 中随机获取一张图片
+多图源整合式图片获取插件！
 
 ## 功能
 

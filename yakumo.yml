@@ -1,0 +1,24 @@
+- id: bc0pa1
+  name: yakumo
+  config:
+    pipeline:
+      build:
+        - esbuild
+        - tsc
+        - client
+      clean:
+        - tsc --clean
+- id: wxc6xn
+  name: yakumo-esbuild
+- id: a502x9
+  name: yakumo-tsc
+- id: th026p
+  name: '@koishijs/client/lib/yakumo.js'
+- id: h7qb72
+  name: yakumo/publish
+- id: mml1qk
+  name: yakumo/version
+- id: enr17d
+  name: yakumo/upgrade
+- id: ac2tqc
+  name: yakumo/run

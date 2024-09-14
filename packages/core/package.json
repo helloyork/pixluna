@@ -1,0 +1,46 @@
+{
+  "name": "pixluna",
+  "description": "多图源整合式图片获取插件！",
+  "version": "2.0.5-beta.4",
+  "main": "lib/index.cjs",
+  "module": "lib/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/Hoshino-Yumetsuki/pixluna",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hoshino-Yumetsuki/pixluna"
+  },
+  "keywords": [
+    "pixluna",
+    "pixiv",
+    "koishi",
+    "plugin",
+    "色图"
+  ],
+  "peerDependencies": {
+    "@koishijs/plugin-proxy-agent": "^0.3.3",
+    "koishi": "^4.17.0",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@koishijs/plugin-proxy-agent": "^0.3.3",
+    "sharp": "^0.33.5"
+  },
+  "dependencies": {
+    "@satorijs/element": "^3.1.7"
+  },
+  "koishi": {
+    "description": {
+      "zh": "多图源整合式图片获取插件！"
+    }
+  }
+}
