@@ -1,5 +1,3 @@
-
-
 <div align="center">
 
 <h1>PixLuna</h1>
