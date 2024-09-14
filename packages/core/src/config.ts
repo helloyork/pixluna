@@ -1,5 +1,4 @@
 import { Schema } from "koishi";
-import { Providers, ProviderTypes } from "./main/providers";
 
 export interface Config {
   isR18: boolean;
@@ -12,40 +11,45 @@ export interface Config {
   maxConcurrency: number;
   forwardMessage: boolean;
   compress: boolean;
-  srcProvider: ProviderTypes;
+  srcProvider: string;
 }
 
-const providerTypes = Schema.union<Schema<string, ProviderTypes>>(
-  Object.keys(Providers).map((key) => 
-    Schema.const<ProviderTypes>(key as ProviderTypes))
-);
 export const Config: Schema<Config> = Schema.intersect([
   // 通用设置
   Schema.object({
     isR18: Schema.boolean()
       .default(false)
       .description("是否允许返回 R18 内容。"),
+
     excludeAI: Schema.boolean()
       .default(false)
       .description("是否排除 AI 生成作品。"),
+
     imageConfusion: Schema.boolean()
       .default(false)
       .description("是否启用图片混淆处理。（对某些平台有奇效）"),
+
     maxConcurrency: Schema.number()
       .default(1)
       .description("最大并发请求数。")
       .min(1)
       .max(10)
       .step(1),
+
     forwardMessage: Schema.boolean()
       .default(true)
       .description("是否以转发消息格式发送图片。"),
+
     compress: Schema.boolean()
       .default(false)
       .description("是否压缩图片（能大幅度提升发送的速度，但是对图片质量有影响）"),
-    srcProvider: providerTypes
-      .default("pixiv" satisfies ProviderTypes)
+
+    srcProvider: Schema.union([
+      Schema.const('pixiv'),
+    ])
+      .default('pixiv')
       .description("图片来源"),
+
   }).description("通用设置"),
 
   // R18 内容设置
