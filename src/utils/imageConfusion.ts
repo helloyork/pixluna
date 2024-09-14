@@ -91,5 +91,14 @@ export async function mixImage(
 
   image = undefined;
 
-  return h.image(processedImageBuffer, getImageMimeType(imageType));
+  return bufferToDataUrl(processedImageBuffer, imageType);
+}
+
+export async function bufferToDataUrl(
+  buffer: ArrayBuffer,
+  mimeType: IMAGE_MINE_TYPE,
+) {
+  const base64 = Buffer.from(buffer).toString("base64");
+
+  return `data:${IMAGE_MINE_TYPE_MAP[mimeType]};base64,${base64}`;
 }

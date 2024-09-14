@@ -17,6 +17,11 @@ tsconfig.tsbuildinfo
 *.njsproj
 *.sln
 
+*.test.ts
+*.test.tsx
+*.test.js
+*.test.jsx
+
 # use yakumo!!!
 yarn.lock
 package-lock.json

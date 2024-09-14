@@ -1,8 +1,9 @@
 import { Context, h } from "koishi";
 import type Config from "./config";
-import { ParallelPool } from "./utils/pool";
-import { render } from "./utils/renderer";
-import { taskTime } from "./utils/request";
+import { ParallelPool } from "./utils/data";
+import { render } from "./main/renderer";
+import { taskTime } from "./utils/data";
+import { PixivSourceProvider } from "./main/providers/pixiv";
 
 export function apply(ctx: Context, config: Config) {
   ctx
@@ -13,6 +14,8 @@ export function apply(ctx: Context, config: Config) {
     .alias("色图")
     .action(async ({ session, options }, tag) => {
       await session.send("不可以涩涩哦~");
+
+      PixivSourceProvider.getInstance<PixivSourceProvider>().setConfig(config);
 
       const messages: h[] = [];
       const pool = new ParallelPool<void>(config.maxConcurrency);
