@@ -1,6 +1,6 @@
 {
   "name": "koishi-plugin-pixluna",
-  "description": "多图源整合式图片获取插件！",
+  "description": "多图源整合式涩图插件！",
   "version": "1.0.0-beta.1",
   "main": "lib/index.cjs",
   "module": "lib/index.mjs",
