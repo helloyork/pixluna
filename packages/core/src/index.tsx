@@ -1,5 +1,5 @@
 import type Config from "./config";
-import { Context, h } from "koishi";
+import { Context, h, Schema } from "koishi";
 import { ParallelPool } from "./utils/data";
 import { render } from "./main/renderer";
 import { taskTime } from "./utils/data";

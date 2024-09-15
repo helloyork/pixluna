@@ -89,13 +89,17 @@ export abstract class SourceProvider<T> {
   /**
    * Human-readable name
    */
-  abstract name: string;
+  name: string;
   abstract getMetaData(ctx: {context: Context}, props: CommonSourceRequest):
     Promise<SourceResponse<ImageMetaData>>;
 
   constructor(ctx: Context, config: T) {
-    ctx.pixluna.registerProvider(this);
     this.config = config;
+  }
+
+  setName(name: string): this {
+    this.name = name;
+    return this;
   }
 }
 

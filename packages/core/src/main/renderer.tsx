@@ -5,7 +5,7 @@ import { getProvider } from "./providers";
 
 export async function render(ctx: Context, config: Config, tag: string) {
   try {
-    const image = await getRemoteImage(ctx, tag, config, getProvider(config.srcProvider));
+    const image = await getRemoteImage(ctx, tag, config, getProvider(config.srcProvider, ctx));
 
     if (!image) {
       return (
