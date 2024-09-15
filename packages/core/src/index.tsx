@@ -1,11 +1,19 @@
-import { Context, h } from "koishi";
 import type Config from "./config";
+import { Context, h } from "koishi";
 import { ParallelPool } from "./utils/data";
 import { render } from "./main/renderer";
 import { taskTime } from "./utils/data";
-import { LoliconSourceProvider } from "./main/providers/lolicon";
+import { SourceProviderService } from "./service/source";
+
+declare module 'koishi' {
+  interface Context {
+    pixluna: SourceProviderService<any>
+  }
+}
 
 export function apply(ctx: Context, config: Config) {
+  ctx.plugin(SourceProviderService, config);
+
   ctx
     .command("来张色图 [tag:text]", "随机一张色图")
     .option("n", "-n <value:number>", {
@@ -14,8 +22,6 @@ export function apply(ctx: Context, config: Config) {
     .alias("色图")
     .action(async ({ session, options }, tag) => {
       await session.send("不可以涩涩哦~");
-
-      LoliconSourceProvider.getInstance<LoliconSourceProvider>().setConfig(config);
 
       const messages: h[] = [];
       const pool = new ParallelPool<void>(config.maxConcurrency);
@@ -62,3 +68,4 @@ export function apply(ctx: Context, config: Config) {
 }
 
 export * from "./config";
+export * from "./types/type";

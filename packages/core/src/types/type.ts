@@ -84,17 +84,18 @@ export type SourceResponse<T, U extends SourceResponseStatus = SourceResponseSta
     data: any;
   }
 
-export abstract class SourceProvider {
-  private static instance: SourceProvider;
-  public static getInstance<U extends SourceProvider>(): U {
-    if (!this.instance) {
-      this.instance = Reflect.construct(this, []);
-    }
-    return this.instance as U;
-  }
-
-  abstract config: any;
+export abstract class SourceProvider<T> {
+  config: T;
+  /**
+   * Human-readable name
+   */
+  abstract name: string;
   abstract getMetaData(ctx: {context: Context}, props: CommonSourceRequest):
     Promise<SourceResponse<ImageMetaData>>;
+
+  constructor(ctx: Context, config: T) {
+    ctx.pixluna.registerProvider(this);
+    this.config = config;
+  }
 }
 

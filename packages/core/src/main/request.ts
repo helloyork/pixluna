@@ -12,10 +12,15 @@ import { taskTime } from "../utils/data";
 
 const RANDOM_IMAGE_URL = "https://api.lolicon.app/setu/v2";
 
-export async function getRemoteImage(ctx: Context, tag: string, config: Config, provider: typeof SourceProvider): Promise<Lolicon & {
+export async function getRemoteImage(ctx: Context, tag: string, config: Config, provider: SourceProvider<any> | null): Promise<Lolicon & {
   data: string | h;
   raw: Lolicon;
-}> {
+} | null> {
+  if (!provider) {
+    ctx.logger.error("missing provider");
+    return null;
+  }
+
   let sharp;
   try {
     sharp = (await import("sharp"))?.default;
@@ -35,7 +40,7 @@ export async function getRemoteImage(ctx: Context, tag: string, config: Config, 
     proxy: config.baseUrl ? config.baseUrl : void 0,
   };
 
-  const srcProvider = provider.getInstance();
+  const srcProvider = provider;
   const metadata = await srcProvider.getMetaData({
     context: ctx,
   }, params);
