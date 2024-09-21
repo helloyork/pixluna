@@ -91,7 +91,7 @@ export async function mixImage(
 
   image = undefined;
 
-  return bufferToDataUrl(processedImageBuffer, imageType);
+  return h.image(processedImageBuffer, IMAGE_MINE_TYPE_MAP[imageType]);
 }
 
 export async function bufferToDataUrl(
